@@ -17,9 +17,9 @@
     $mysql_password='cars&5767';
     $mysql_database='mallemand1?assnt3';
     
-   $con = new mysqli_connect($mysql_host, $mysql_user, $mysql_password, $mysql_database);
-    if (!$con->conect_error){
-        die("Connection failed: " . $conn->connect_error);
+   $con = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
+    if ($con->conect_error){
+        die("Connection failed: " . $con->connect_error);
     }
     echo 'connection success';
 	
@@ -31,13 +31,13 @@
        $sql = "INSERT INTO Inventory(title, author, ISBN, Publisher, Year)
                 VALUES ('$_POST[title]','$_POST[author]','$_POST[ISBN]','$_POST[Publisher]','$_POST[Year]')";
         
-        if ($con_>query($sql) === TRUE) {
+        if ($con->query($sql) === TRUE) {
             echo "New record created successfully";
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "Error: " . $sql . "<br>" . $con->error;
             }
             
-            $conn->close()
+            $con->close();
                 
         
         
