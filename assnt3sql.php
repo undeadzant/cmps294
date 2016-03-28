@@ -9,7 +9,7 @@
    </head>
    
    <body>
-   <?php #$myFile = "./testfile.txt";
+   <?php 
     extract($_POST);
    
     $mysql_host='localhost';
@@ -17,8 +17,11 @@
     $mysql_password='cars&5767';
     $mysql_database='mallemand1?assnt3';
     
+    // Connecting to database
+    
    $con = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
-    if ($con->conect_error){
+    // Test the connection
+    if ($con->connect_error){
         die("Connection failed: " . $con->connect_error);
     }
     echo 'connection success';
@@ -93,7 +96,9 @@ echo "Checkout the file $newfile to see what it contains now <p>";
    }
  // --------------Removal ends here ------------
  */ 
-   else if ($userOption == "search"){
+   
+   
+   /*else if ($userOption == "search"){
 	  print "Searching the database <p>\n ";
        <?php
     if(isset($_GET['keywords'])){
@@ -122,7 +127,7 @@ echo "Checkout the file $newfile to see what it contains now <p>";
         <div class="result">
             <a href="#"><?php echo $r->title; ?></a>
         </div>
- }
+ }*/
 	 
    ?>
    
