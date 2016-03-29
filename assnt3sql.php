@@ -45,57 +45,41 @@
         
         
    }
-	#if (file_exists($myFile)) {
-	#	print "Adding to database <p>\n ";
-	#}	else {
-		#print "We are unable to find the database <p>\n ";
-	#}
-	
-	#$fh = fopen($myFile, 'a') or die("Cannot access database <br>");
-	#fwrite($fh, $title."%");
-	#fwrite($fh, $author."%");
-	#fwrite($fh, $ISBN."%");
-	#fwrite($fh, $Publisher."%");
-	#fwrite($fh, $Year."%");
-	#fwrite($fh, "\n");
-   #}
-   
- #  else if ($userOption == "remove"){
-#	   echo "Removing the entry <p>\n ";
-//  ------------Removal starts here ------------	   
-#	   $arrayPattern = "/$title%.*$author.*$ISBN.*$Publisher.*$Year.*/i";
-#echo "Now looking for $arrayPattern <br>";
-/*	   $bookDatabase = fopen($myFile, "r+");
-	   $bookArray = array();
- 
-	while(!feof($bookDatabase)){
-       $line = fgets($bookDatabase);
-	   echo "Examining $line <br>"; 
-
-       if (preg_match($arrayPattern, $line)){
-           
+  // set up statement for users to view the entire database
+   else if ($userOption == "viewDB"){
+       $sql = "SELECT title, author, ISBN, Publisher, Year FROM Inventory";
+       $result = $con->query($sql);
        
-            echo "GOT $line and I am skipping it<p>";
-            // $line = str_replace('\"', '', $line);
-        } else { echo "I am keeping this<br>";
-                 array_push($bookArray, $line);
-        }
-        }
-
-      fclose($bookDatabase);      
- 
-echo "Here is what I collected:<br>";
-print implode("<br>", $bookArray);
-
-echo "Now I will write what I collected into a file but will make it a different file so that I do not destroy the original while I am experimenting";
-$newfile=$myFile . "_2";
-$fh = fopen("$newfile", 'w') or die("Cannot access database <br>");
-	foreach($bookArray as $book) { fwrite($fh, "$book"); }
-fclose($fh);
-echo "Checkout the file $newfile to see what it contains now <p>";
+       if ($result->num_rows > 0){
+           echo "<table><tr><th>Title</th><th>Author</th><th>ISBN</th><th>Publisher</th><th>Year</th></tr>";
+           while ($row = $result->fetch_assoc()){
+               echo "<tr><td> " . $row["title"]. " </td><td> " . $row["author"]. " </td><td>" . $row["ISBN"]. " </td><td> " .$row["Publisher"] . " </td><td> " . $row["Year"]. "</td></tr>";
+               
+           }
+           echo "</table>";
+       } else {
+           echo "0 results";
+       }
+       $con->close();
+       
    }
- // --------------Removal ends here ------------
- */ 
+   // user puts in the ISBN number to remove records
+   else if ($userOption == "del"){
+       $sql = "DELETE FROM Inventory WHERE ISBN = '$_POST[ISBN]'";
+       
+       if ($con->query($sql) === TRUE) {
+           echo "Successfully removed the book from Inventory";
+       } else {
+           echo "Error with removing the entry: " . $conn->error;
+       }
+       $conn->close();
+       
+   }
+	
+   
+    
+ 
+
    
    
    /*else if ($userOption == "search"){
@@ -128,8 +112,15 @@ echo "Checkout the file $newfile to see what it contains now <p>";
             <a href="#"><?php echo $r->title; ?></a>
         </div>
  }*/
+ 
+    
 	 
    ?>
+   <br>
+   <br>
+   <hr>
+   <a href="assnt3formsql.html">Home! </a>
+   
    
    
  </html>
